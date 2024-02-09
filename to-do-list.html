@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>To-Do List</title>
+
+    <!-- CSS Style -->
+    <style>
+      body {
+        background-image: linear-gradient(
+          174.2deg,
+          #fff4e4 7.1%,
+          #f0f6ee 67.4%
+        );
+      }
+
+      .app {
+        margin: auto;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+        margin: 1em;
+        padding: 1em;
+      }
+
+      .app h1 {
+        text-align: center;
+      }
+
+      #mainbox {
+        width: 25em;
+        min-height: 300px;
+        border-radius: 10px;
+        border: 3px solid #520;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        font-size: x-large;
+        padding: 0.5em;
+        margin: auto;
+
+        background: linear-gradient(to right, #f2994a, #f2c94c);
+      }
+
+      .actions button {
+        width: 20em;
+        margin: auto;
+        padding: 0.5em 1.5rem;
+        display: block;
+        margin-bottom: 1em;
+
+        border: 1px solid teal;
+        border-radius: 4px;
+
+        font-weight: bold;
+        font: inherit;
+        cursor: pointer;
+        background-color: teal;
+        color: white;
+      }
+
+      .actions button:hover,
+      .actions button:active {
+        background-color: #19bbbb;
+        border-color: #19bbbb;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="app">
+      <h1>To do list</h1>
+      <div class="actions">
+        <button id="add_items" onclick="addItem();">
+          Add an item to the list
+        </button>
+
+        <button id="delete_items" onclick="deleteItem();">
+          Delete an item from the list
+        </button>
+      </div>
+
+      <div id="mainbox"></div>
+    </main>
+    <script>
+      // connecting the "mainbox" element to the a variable
+      const the_box = document.getElementById("mainbox");
+
+      // create an array of list items.
+      const list_item = ["Sleep", "Eat", "Jog", "Workout"];
+
+      // create a parallel array of due dates
+      const due_date = ["Sunday", "Monday", "Tuesday", "Wednesday"];
+
+      function showList() {
+        //   reset the box (remove the current items in the box)
+        the_box.innerHTML = "";
+
+        //   loop through the list_item array to display the items, in the box
+        for (let i = 0; i < list_item.length; i++) {
+          the_box.innerHTML +=
+            "⚡" + list_item[i] + " on " + due_date[i] + "<br />";
+        }
+      }
+
+      // calling the function
+      showList();
+
+      function addItem() {
+        //   allow user to enter an item
+        const new_list_item = prompt("Enter the name of the item:", "");
+
+        //   validation (making sure the user entered a valid item)
+        if (new_list_item === null || !isNaN(parseInt(new_list_item))) {
+          alert("Sorry, that is not an acceptable item!");
+          return;
+        }
+
+        // validation (making sure the item is not part of the list)
+        if (list_item.includes(new_list_item)) {
+          alert("Sorry, that item is already part of the list!");
+          return;
+        }
+
+        //   allow user to enter a due date
+        const new_due_date = prompt("Enter the due date:", "");
+
+        //   validation (making sure the user entered a valid item)
+        if (new_due_date === null || !isNaN(parseInt(new_due_date))) {
+          alert("Sorry, that is not an acceptable due date!");
+          return;
+        }
+
+        //   add the new item to the list_items array, if validation is correct
+        list_item.push(new_list_item);
+
+        //   add the new due date to the due_date array, if validation is correct
+        due_date.push(new_due_date);
+
+        //   display success message to the user
+        alert(
+          new_list_item + " was added to the list. Due date is: " + new_due_date
+        );
+
+        //   calling the function
+        showList();
+      }
+
+      function deleteItem() {
+        //   allow user to enter an item
+        const item_name = prompt(
+          "Enter the name of the item to be deleted:",
+          ""
+        );
+
+        //   validation (making sure the user entered a valid item name)
+        if (item_name === null || !isNaN(parseInt(item_name))) {
+          alert("Sorry, that is not an acceptable item name!");
+          return;
+        }
+
+        // validation (making sure the item is part of the list)
+        if (!list_item.includes(item_name)) {
+          alert("Sorry, that item is not part of the list!");
+          return;
+        }
+
+        // finding the index of the item in the arrray
+        const item_index = list_item.indexOf(item_name);
+
+        // deleting the item from the array, using the index of the item
+        list_item.splice(item_index, 1);
+
+        // deleting the due date from the array, using the index of the item
+        due_date.splice(item_index, 1);
+
+        // calling the function
+        showList();
+
+        // display success message to the user
+        alert(item_name + " has been deleted from the list");
+      }
+    </script>
+  </body>
+</html>
